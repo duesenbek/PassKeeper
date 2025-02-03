@@ -1,29 +1,51 @@
-import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/passkeeper";
-        String user = "postgres";
-        String password = "Bekzat077@";
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connecting to the database...");
+    public static void
+    main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Database database = new Database();
+        PasswordManager manager = new PasswordManager(database);
 
-            String sql = "SELECT * FROM passwords WHERE account_name = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, "Facebook");
-                ResultSet rs = stmt.executeQuery();
+        while (true) {
+            System.out.println("\n--- PassKeeper Menu ---");
+            System.out.println("1. Add a new password");
+            System.out.println("2. Search for a password");
+            System.out.println("3. Display all passwords");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
 
-                if (rs.next()) {
-                    String retrievedPassword = rs.getString("password");
-                    System.out.println("Retrieved Password: " + retrievedPassword);
-                } else {
-                    System.out.println("No data found for the given account name.");
-                }
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter account name: ");
+                    String accountName = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine();
+                    manager.addPassword(accountName, password);
+                    break;
+                case 2:
+                    System.out.print("Enter account name to search: ");
+                    accountName = scanner.nextLine();
+                    Password foundPassword = manager.findPassword(accountName);
+                    if (foundPassword != null) {
+                        System.out.println(foundPassword);
+                    } else {
+                        System.out.println("Password not found.");
+                    }
+                    break;
+                case 3:
+                    manager.displayPasswords();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    database.closeConnection();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
             }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
-

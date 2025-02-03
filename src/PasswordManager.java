@@ -3,14 +3,19 @@ import java.util.List;
 
 public class PasswordManager {
     private List<Password> passwords;
-
-    public PasswordManager() {
+    private Database database;
+    public PasswordManager(Database database) {
         passwords = new ArrayList<>();
+        this.database = database;
     }
+
 
     public void addPassword(String accountName, String password) {
-        passwords.add(new Password(accountName, password));
+        Password newPassword = new Password(accountName, password);
+        passwords.add(newPassword);
+        database.savePasswordToDatabase(newPassword);
     }
+
 
     public Password findPassword(String accountName) {
         for (Password password : passwords) {
@@ -18,8 +23,9 @@ public class PasswordManager {
                 return password;
             }
         }
-        return null;
+        return database.retrievePasswordFromDatabase(accountName);
     }
+
 
     public void displayPasswords() {
         for (Password password : passwords) {
