@@ -1,11 +1,9 @@
 import java.util.Random;
 
 public class PasswordGenerator {
-    private int length;              // Длина пароля
-    private boolean includeSpecialChars; // Использовать специальные символы или нет
-
-    // Конструктор для задания параметров генератора
-    public PasswordGenerator(int length, boolean includeSpecialChars) {
+    private int length;
+    private boolean includeSpecialChars;
+     public PasswordGenerator(int length, boolean includeSpecialChars) {
         this.length = length;
         this.includeSpecialChars = includeSpecialChars;
     }
