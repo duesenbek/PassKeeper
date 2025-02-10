@@ -1,13 +1,10 @@
-public class Password {
-    private String accountName;
+//polymorphism
+public class Password extends Account {
     private String password;
 
     public Password(String accountName, String password) {
-        this.accountName = accountName;
+        super(accountName); // Calls the base class constructor
         this.password = password;
-    }
-    public String getAccountName() {
-        return accountName;
     }
 
     public String getPassword() {
@@ -20,6 +17,6 @@ public class Password {
 
     @Override
     public String toString() {
-        return "Account: " + accountName + ", Password: " + password;
+        return super.toString() + ", Password: " + password;
     }
 }

@@ -1,9 +1,11 @@
 import java.util.Random;
 
+//Single Responsibility Principle
 public class PasswordGenerator {
     private int length;
     private boolean includeSpecialChars;
-     public PasswordGenerator(int length, boolean includeSpecialChars) {
+
+    public PasswordGenerator(int length, boolean includeSpecialChars) {
         this.length = length;
         this.includeSpecialChars = includeSpecialChars;
     }
@@ -19,7 +21,6 @@ public class PasswordGenerator {
 
         Random rand = new Random();
         StringBuilder password = new StringBuilder();
-
 
         for (int i = 0; i < length; i++) {
             int index = rand.nextInt(allowedChars.length());

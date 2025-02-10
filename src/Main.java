@@ -1,8 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void
-    main(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Database database = new Database();
         PasswordManager manager = new PasswordManager(database);
@@ -22,9 +21,10 @@ public class Main {
                 case 1:
                     System.out.print("Enter account name: ");
                     String accountName = scanner.nextLine();
-                    System.out.print("Enter password: ");
-                    String password = scanner.nextLine();
-                    manager.addPassword(accountName, password);
+                    System.out.print("Generate password? (y/n): ");
+                    String generate = scanner.nextLine();
+                    boolean generatePassword = generate.equalsIgnoreCase("y");
+                    manager.addPassword(accountName, generatePassword);
                     break;
                 case 2:
                     System.out.print("Enter account name to search: ");

@@ -1,17 +1,15 @@
 import java.sql.*;
-import org.postgresql.Driver;
 
+//Single Responsibility Principle
 public class Database {
     private Connection connection;
 
     public Database() {
         try {
             Class.forName("org.postgresql.Driver");
-
             String url = "jdbc:postgresql://localhost:5432/passkeeper";
             String user = "postgres";
-            String password = "Bekzat077@"; // пароль
-
+            String password = "Bekzat077@"; // Change to your password
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the database.");
         } catch (SQLException | ClassNotFoundException e) {
@@ -21,7 +19,6 @@ public class Database {
 
     public void savePasswordToDatabase(Password password) {
         String query = "INSERT INTO passwords (account_name, password) VALUES (?, ?)";
-
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, password.getAccountName());
             stmt.setString(2, password.getPassword());
@@ -37,7 +34,6 @@ public class Database {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, accountName);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 String password = rs.getString("password");
                 return new Password(accountName, password);
